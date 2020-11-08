@@ -1,4 +1,4 @@
-module gitlab.com/jannemcik/corednsredis
+module redis
 
 go 1.15
 

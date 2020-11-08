@@ -1,4 +1,4 @@
-package corednsredis
+package redis
 
 import (
 	"encoding/json"
