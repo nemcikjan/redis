@@ -1,4 +1,4 @@
-module redis
+module github.com/JanNemcik/redis
 
 go 1.15
 
