@@ -28,6 +28,7 @@ type Redis struct {
 }
 
 func (redis *Redis) LoadZones() {
+	fmt.Println("loading zones")
 	var (
 		reply interface{}
 		err   error
