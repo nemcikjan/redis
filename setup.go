@@ -27,11 +27,8 @@ func setup(c *caddy.Controller) error {
 }
 
 func redisParse(c *caddy.Controller) (*Redis, error) {
-	redis := Redis{
-		keyPrefix: "",
-		keySuffix: "",
-		Ttl:       300,
-	}
+	redis := New()
+
 	var (
 		err error
 	)

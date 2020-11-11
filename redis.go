@@ -13,6 +13,7 @@ import (
 	redisCon "github.com/gomodule/redigo/redis"
 )
 
+// Redis :basic redis struct
 type Redis struct {
 	Next           plugin.Handler
 	Pool           *redisCon.Pool
@@ -27,6 +28,19 @@ type Redis struct {
 	LastZoneUpdate time.Time
 }
 
+// New :returns new redis instance
+func New() *Redis {
+	return &Redis{
+		Zones:        []string{"."},
+		redisAddress: "127.0.0.1:6379",
+		Pool:         &redisCon.Pool{},
+		keyPrefix:    "",
+		keySuffix:    "",
+		Ttl:          300,
+	}
+}
+
+// LoadZones :loads zones from DB
 func (redis *Redis) LoadZones() {
 	fmt.Println("loading zones")
 	var (
@@ -56,6 +70,7 @@ func (redis *Redis) LoadZones() {
 	redis.Zones = zones
 }
 
+// A :parses A dns record
 func (redis *Redis) A(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	for _, a := range record.A {
 		if a.Ip == nil {
@@ -70,6 +85,7 @@ func (redis *Redis) A(name string, z *Zone, record *Record) (answers, extras []d
 	return
 }
 
+// AAAA :parses AAAA dns record
 func (redis Redis) AAAA(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	for _, aaaa := range record.AAAA {
 		if aaaa.Ip == nil {
@@ -84,6 +100,7 @@ func (redis Redis) AAAA(name string, z *Zone, record *Record) (answers, extras [
 	return
 }
 
+// CNAME :parses CNAME dns record
 func (redis *Redis) CNAME(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	for _, cname := range record.CNAME {
 		if len(cname.Host) == 0 {
@@ -98,6 +115,7 @@ func (redis *Redis) CNAME(name string, z *Zone, record *Record) (answers, extras
 	return
 }
 
+// TXT :parses TXT dns record
 func (redis *Redis) TXT(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	for _, txt := range record.TXT {
 		if len(txt.Text) == 0 {
@@ -112,6 +130,7 @@ func (redis *Redis) TXT(name string, z *Zone, record *Record) (answers, extras [
 	return
 }
 
+// NS :parses NS dns record
 func (redis *Redis) NS(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	for _, ns := range record.NS {
 		if len(ns.Host) == 0 {
@@ -127,6 +146,7 @@ func (redis *Redis) NS(name string, z *Zone, record *Record) (answers, extras []
 	return
 }
 
+// MX :parses MX dns record
 func (redis *Redis) MX(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	for _, mx := range record.MX {
 		if len(mx.Host) == 0 {
@@ -143,6 +163,7 @@ func (redis *Redis) MX(name string, z *Zone, record *Record) (answers, extras []
 	return
 }
 
+// SRV :parses SRV dns record
 func (redis *Redis) SRV(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	for _, srv := range record.SRV {
 		if len(srv.Target) == 0 {
@@ -161,6 +182,7 @@ func (redis *Redis) SRV(name string, z *Zone, record *Record) (answers, extras [
 	return
 }
 
+// SOA :parses SOA dns record
 func (redis *Redis) SOA(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	r := new(dns.SOA)
 	if record.SOA.Ns == "" {
@@ -187,6 +209,7 @@ func (redis *Redis) SOA(name string, z *Zone, record *Record) (answers, extras [
 	return
 }
 
+// CAA :parses CAA dns record
 func (redis *Redis) CAA(name string, z *Zone, record *Record) (answers, extras []dns.RR) {
 	if record == nil {
 		return
@@ -205,6 +228,7 @@ func (redis *Redis) CAA(name string, z *Zone, record *Record) (answers, extras [
 	return
 }
 
+// AXFR :parses AXFR dns record
 func (redis *Redis) AXFR(z *Zone) (records []dns.RR) {
 	//soa, _ := redis.SOA(z.Name, z, record)
 	soa := make([]dns.RR, 0)
@@ -406,6 +430,7 @@ func splitQuery(query string) (string, string, bool) {
 	return closestEncloser, sourceOfSynthesis, true
 }
 
+// Connect :creates redis connection
 func (redis *Redis) Connect() {
 	redis.Pool = &redisCon.Pool{
 		Dial: func() (redisCon.Conn, error) {
