@@ -422,7 +422,7 @@ func (redis *Redis) Connect() {
 				opts = append(opts, redisCon.DialReadTimeout(time.Duration(redis.readTimeout)*time.Millisecond))
 			}
 			fmt.Println(redis.redisAddress)
-			return redisCon.Dial("tcp", redis.redisAddress, opts...)
+			return redisCon.Dial("tcp", "localhost:6379", opts...)
 		},
 	}
 }
