@@ -421,7 +421,7 @@ func (redis *Redis) Connect() {
 			if redis.readTimeout != 0 {
 				opts = append(opts, redisCon.DialReadTimeout(time.Duration(redis.readTimeout)*time.Millisecond))
 			}
-
+			fmt.Println(redis.redisAddress)
 			return redisCon.Dial("tcp", redis.redisAddress, opts...)
 		},
 	}
