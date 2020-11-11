@@ -43,9 +43,11 @@ func (redis *Redis) LoadZones() {
 	defer conn.Close()
 
 	reply, err = conn.Do("KEYS", redis.keyPrefix+"*"+redis.keySuffix)
+	fmt.Println(err)
 	if err != nil {
 		return
 	}
+	fmt.Println(reply)
 	zones, err = redisCon.Strings(reply, nil)
 	for i, _ := range zones {
 		fmt.Println(zones[i])
