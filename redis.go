@@ -61,7 +61,8 @@ func (redis *Redis) LoadZones() {
 		return
 	}
 	zones, err = redisCon.Strings(reply, nil)
-	for i, _ := range zones {
+	fmt.Println(zones)
+	for i := range zones {
 		fmt.Println(zones[i])
 		zones[i] = strings.TrimPrefix(zones[i], redis.keyPrefix)
 		zones[i] = strings.TrimSuffix(zones[i], redis.keySuffix)
