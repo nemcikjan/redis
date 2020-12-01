@@ -38,6 +38,7 @@ func redisParse(c *caddy.Controller) (*Redis, error) {
 
 		//if c.NextBlock() {
 			for c.NextBlock() {
+				fmt.Println("printing args")
 				fmt.Println(c.Val())
 				switch c.Val() {
 				case "address":
