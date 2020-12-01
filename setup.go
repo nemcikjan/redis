@@ -34,31 +34,37 @@ func redisParse(c *caddy.Controller) (*Redis, error) {
 	)
 
 	for c.Next() {
-		if c.NextBlock() {
-			for {
+
+		//if c.NextBlock() {
+			for c.NextBlock() {
 				switch c.Val() {
 				case "address":
-					if !c.NextArg() {
+					args := c.RemainingArgs()
+					if len(args) < 1 {
 						return &Redis{}, c.ArgErr()
 					}
 					redis.redisAddress = c.Val()
 				case "password":
-					if !c.NextArg() {
+					args := c.RemainingArgs()
+					if len(args) < 1 {
 						return &Redis{}, c.ArgErr()
 					}
 					redis.redisPassword = c.Val()
 				case "prefix":
-					if !c.NextArg() {
+					args := c.RemainingArgs()
+					if len(args) < 1 {
 						return &Redis{}, c.ArgErr()
 					}
 					redis.keyPrefix = c.Val()
 				case "suffix":
-					if !c.NextArg() {
+					args := c.RemainingArgs()
+					if len(args) < 1 {
 						return &Redis{}, c.ArgErr()
 					}
 					redis.keySuffix = c.Val()
 				case "connect_timeout":
-					if !c.NextArg() {
+					args := c.RemainingArgs()
+					if len(args) < 1 {
 						return &Redis{}, c.ArgErr()
 					}
 					redis.connectTimeout, err = strconv.Atoi(c.Val())
@@ -66,7 +72,8 @@ func redisParse(c *caddy.Controller) (*Redis, error) {
 						redis.connectTimeout = 0
 					}
 				case "read_timeout":
-					if !c.NextArg() {
+					args := c.RemainingArgs()
+					if len(args) < 1 {
 						return &Redis{}, c.ArgErr()
 					}
 					redis.readTimeout, err = strconv.Atoi(c.Val())
@@ -74,7 +81,8 @@ func redisParse(c *caddy.Controller) (*Redis, error) {
 						redis.readTimeout = 0
 					}
 				case "ttl":
-					if !c.NextArg() {
+					args := c.RemainingArgs()
+					if len(args) < 1 {
 						return &Redis{}, c.ArgErr()
 					}
 					var val int
@@ -94,7 +102,7 @@ func redisParse(c *caddy.Controller) (*Redis, error) {
 				}
 			}
 
-		}
+		//}
 
 		redis.Connect()
 		redis.LoadZones()
