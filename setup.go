@@ -1,6 +1,7 @@
 package redis
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/coredns/caddy"
@@ -37,6 +38,7 @@ func redisParse(c *caddy.Controller) (*Redis, error) {
 
 		//if c.NextBlock() {
 			for c.NextBlock() {
+				fmt.Println(c.Val())
 				switch c.Val() {
 				case "address":
 					args := c.RemainingArgs()
