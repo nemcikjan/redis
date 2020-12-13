@@ -1,14 +1,13 @@
 package redis
 
 import (
+	"context"
 	"fmt"
-	// "fmt"
 	"time"
 
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/request"
 	"github.com/miekg/dns"
-	"golang.org/x/net/context"
 )
 
 // ServeDNS implements the plugin.Handler interface.
@@ -75,6 +74,10 @@ func (redis *Redis) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.M
 
 	record := redis.get(location, z)
 
+	if record == nil {
+		return plugin.NextOrFailure(redis.Name(), redis.Next, ctx, w, r)
+	}
+
 	switch qtype {
 	case "A":
 		answers, extras = redis.A(qname, z, record)
@@ -108,7 +111,7 @@ func (redis *Redis) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.M
 
 	state.SizeAndDo(m)
 	m = state.Scrub(m)
-	_ = w.WriteMsg(m)
+	w.WriteMsg(m)
 	return dns.RcodeSuccess, nil
 }
 
