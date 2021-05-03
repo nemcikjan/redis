@@ -12,7 +12,7 @@ import (
 )
 
 var zones = []string{
-	"example.com.", "example.net.",
+	"example.com.", "example.net.", "softhouse.online.",
 }
 
 var lookupEntries = [][][]string{
@@ -67,6 +67,14 @@ var lookupEntries = [][][]string{
 		},
 		{"_ssh._tcp.host2",
 			"{\"srv\":[{\"ttl\":300, \"target\":\"tcp.example.com.\",\"port\":123,\"priority\":10,\"weight\":100}]}",
+		},
+	},
+	{
+		{"cdn1",
+			"{\"a\":[{\"ttl\":300, \"ip\":\"10.243.98.211\"}]}",
+		},
+		{"cdn2",
+			"{\"a\":[{\"ttl\":300, \"ip\":\"10.243.163.247\"}]}",
 		},
 	},
 }
