@@ -12,7 +12,7 @@ import (
 )
 
 var zones = []string{
-	"example.com.", "example.net.", "softhouse.online.",
+	"example.com.", "example.net.", "dp.bignetwork.com.",
 }
 
 var lookupEntries = [][][]string{
@@ -75,21 +75,6 @@ var lookupEntries = [][][]string{
 		},
 		{"cdn2",
 			"{\"a\":[{\"ttl\":300, \"ip\":\"10.243.163.247\"}]}",
-		},
-		{"ns1",
-			"{\"cname\":[{\"ttl\":300, \"ip\":\"dns.softhouse.online\"}]}",
-		},
-		{"ns2",
-			"{\"cname\":[{\"ttl\":300, \"ip\":\"dns.softhouse.online\"}]}",
-		},
-		{"ns3",
-			"{\"cname\":[{\"ttl\":300, \"ip\":\"dns.softhouse.online\"}]}",
-		},
-		{"ns4",
-			"{\"cname\":[{\"ttl\":300, \"ip\":\"dns.softhouse.online\"}]}",
-		},
-		{"dns",
-			"{\"a\":[{\"ttl\":300, \"ip\":\"18.223.126.180\"}]}",
 		},
 	},
 }
