@@ -197,6 +197,15 @@ var testCases = [][]test.Case{
 			},
 		},
 	},
+	{
+		// A Test
+		{
+			Qname: "cnd1.dp.bignetwork.com.", Qtype: dns.TypeA,
+			Answer: []dns.RR{
+				test.A("cnd1.dp.bignetwork.com. 300 IN A 10.243.98.211"),
+			},
+		},
+	},
 }
 
 func newRedisPlugin() *Redis {
