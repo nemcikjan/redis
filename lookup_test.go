@@ -12,7 +12,7 @@ import (
 )
 
 var zones = []string{
-	"example.com.", "example.net.", "dp.bignetwork.com.",
+	"example.com.", "example.net.",
 }
 
 var lookupEntries = [][][]string{
@@ -67,14 +67,6 @@ var lookupEntries = [][][]string{
 		},
 		{"_ssh._tcp.host2",
 			"{\"srv\":[{\"ttl\":300, \"target\":\"tcp.example.com.\",\"port\":123,\"priority\":10,\"weight\":100}]}",
-		},
-	},
-	{
-		{"cdn1",
-			"{\"a\":[{\"ttl\":300, \"ip\":\"10.243.98.211\"}]}",
-		},
-		{"cdn2",
-			"{\"a\":[{\"ttl\":300, \"ip\":\"10.243.163.247\"}]}",
 		},
 	},
 }
@@ -194,15 +186,6 @@ var testCases = [][]test.Case{
 			Qname: "f.h.g.f.t.r.e.example.net.", Qtype: dns.TypeTXT,
 			Answer: []dns.RR{
 				test.TXT("f.h.g.f.t.r.e.example.net. 300 IN TXT \"this is a wildcard\""),
-			},
-		},
-	},
-	{
-		// A Test
-		{
-			Qname: "cnd1.dp.bignetwork.com.", Qtype: dns.TypeA,
-			Answer: []dns.RR{
-				test.A("cnd1.dp.bignetwork.com. 300 IN A 10.243.98.211"),
 			},
 		},
 	},
